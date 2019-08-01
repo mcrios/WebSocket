@@ -1,7 +1,5 @@
 package com.datasoft.chat.controller;
 
-import static java.lang.String.format;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +24,7 @@ public class WebSocketListener {
 
 	@EventListener
 	public void handleWebSocketConnectListener(SessionConnectEvent event) {
-		StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
-		String username = (String) headerAccessor.getSessionAttributes().get("username");
-		logger.info(username + " Se ha unido al chat");
+		logger.info("Un usuario se ha unido");
 	}
 
 	@EventListener
@@ -36,15 +32,15 @@ public class WebSocketListener {
 		StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
 
 		String username = (String) headerAccessor.getSessionAttributes().get("username");
-		String roomId = (String) headerAccessor.getSessionAttributes().get("room_id");
+		String roomId = (String) headerAccessor.getSessionAttributes().get("room");
 		if (username != null) {
-			logger.info(username + " Abandono el chat");
+			logger.info(username + " Abandono el chat " + roomId);
 
 			ChatMessage chatMessage = new ChatMessage();
 			chatMessage.setType(MessageType.LEAVE);
 			chatMessage.setSender(username);
 
-			messagingTemplate.convertAndSend(format("/topic/%s", roomId), chatMessage);
+			messagingTemplate.convertAndSend("/topic/" + roomId, chatMessage);
 		}
 	}
 }

@@ -1,5 +1,6 @@
 package com.datasoft.chat.controller;
 
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -13,8 +14,10 @@ public class ChatController {
 
 	@MessageMapping("/chat/{room}/register")
 	@SendTo("/topic/{room}")
-	public ChatMessage register(@Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
+	public ChatMessage register(@DestinationVariable String room, @Payload ChatMessage chatMessage, 
+			SimpMessageHeaderAccessor headerAccessor) {
 		headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
+		headerAccessor.getSessionAttributes().put("room", room);
 		return chatMessage;
 	}
 	
