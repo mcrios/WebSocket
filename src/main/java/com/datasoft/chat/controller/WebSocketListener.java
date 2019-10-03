@@ -24,7 +24,7 @@ public class WebSocketListener {
 
 	@EventListener
 	public void handleWebSocketConnectListener(SessionConnectEvent event) {
-		logger.info("Un usuario se ha unido");
+		logger.info("Un usuario se ha unido ");
 	}
 
 	@EventListener

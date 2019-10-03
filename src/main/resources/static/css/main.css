@@ -105,6 +105,14 @@ button.primary {
     color: #fff;
 }
 
+button.logout {
+    float: right;
+    margin: 15px;
+    background-color: #be254f;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);
+    color: #fff;
+}
+
 button.accent {
     background-color: #1778dd;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);

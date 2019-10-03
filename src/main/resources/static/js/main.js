@@ -8,6 +8,7 @@ var messageInput = document.querySelector('#message');
 var messageArea = document.querySelector('#messageArea');
 var connectingElement = document.querySelector('.connecting');
 var roomIdDisplay = document.querySelector('#room-id-display');
+var btnLogout = document.querySelector('#btn-logout');
 
 var stompClient = null;
 var username = null;
@@ -70,6 +71,14 @@ function send(event) {
 	event.preventDefault();
 }
 
+function logout(event){
+	stompClient.disconnect();
+	//Se limpian los mensajes de la cache.
+	messageArea.innerHTML = '';
+	usernamePage.classList.remove('hidden');
+	chatPage.classList.add('hidden');
+}
+
 function onMessageReceived(payload) {
 	var message = JSON.parse(payload.body);
 
@@ -119,3 +128,5 @@ function getAvatarColor(messageSender) {
 
 usernameForm.addEventListener('submit', connect, true)
 messageForm.addEventListener('submit', send, true)
+btnLogout.addEventListener('click', logout)
+
